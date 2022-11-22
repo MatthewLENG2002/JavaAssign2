@@ -53,17 +53,12 @@ public class Client implements Initializable {
     private static final int[][] chessBoard = new int[3][3];
     private static final boolean[][] flag = new boolean[3][3];
 
-    ////////
-//    public static boolean enable = false;
     public static Connect ct = null;
 
     public Text tt = null;
 
-    public boolean READY = false;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//            base_square.setOnMouseClicked(event -> {});
         game_panel.setOnMouseClicked(event -> {
             int x = (int) (event.getX() / BOUND);
             int y = (int) (event.getY() / BOUND);
@@ -78,70 +73,9 @@ public class Client implements Initializable {
 
         Thread t = new Thread(ct = new Connect(this));
         t.start();
-//        showLogin();
     }
 
-//    public void showLogin() {
-//        GridPane pane=new GridPane();
-//        pane.setAlignment(Pos.CENTER);
-//        pane.setPadding(new Insets(11,12,13,14));
-//        pane.setHgap(5);
-//        pane.setVgap(5);
-//
-//        Label label1=new Label("Welcome");
-//        label1.setFont(Font.font(20));
-//        pane.add(label1,0,0);
-//        pane.add(new Label("User Name:"),0,1);
-//        final TextField tf = new TextField();
-//        pane.add(tf,1,1);
-//        pane.add(new Label("Password:"),0,2);
-//        final PasswordField pb = new PasswordField();
-//        pane.add(pb,1,2);
-//        Button bt=new Button("Sign in");
-//        pane.add(bt,1,3);
-//        GridPane.setHalignment(bt, HPos.RIGHT);
-//
-//        Scene scene=new Scene(pane,400,250);
-//        Stage primaryStage = new Stage();
-//        primaryStage.setTitle("JavaFx Welcome");
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
-//
-//        while (!READY) {
-//            if (verify(tf.getText(), pb.getText())) {
-//                READY = true;
-//                bt.setOnAction(new EventHandler<ActionEvent>() {
-//                    public void handle(ActionEvent e) {
-//                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                        alert.setContentText("登录成功");
-//                        alert.setTitle("登录成功");
-//                        alert.setHeaderText("");
-//                        alert.show();
-//                    }
-//                });
-//            } else {
-//
-//                bt.setOnAction(new EventHandler<ActionEvent>() {
-//                    public void handle(ActionEvent e) {
-//                        Alert alert = new Alert(Alert.AlertType.ERROR);
-//                        alert.setContentText("登录失败");
-//                        alert.setTitle("登录失败");
-//                        alert.setHeaderText("");
-//                        alert.show();
-//                    }
-//                });
-//            }
-//        }
-//
-//
-//    }
-
-//    public boolean verify(String usr, String pwd) {
-//        return ct.verify(usr, pwd);
-//    }
-
     public boolean refreshBoard(int x, int y, boolean _turn, boolean _enable) {
-//        System.out.println("refreshBoard " + Connect.enable);
         if (chessBoard[x][y] == EMPTY && _enable) {
             chessBoard[x][y] = _turn ? PLAY_1 : PLAY_2;
             drawChess();
@@ -178,10 +112,6 @@ public class Client implements Initializable {
             alert.setContentText("You " + s);
             alert.show();
         });
-//        Text tt = new Text(0, 0, s);
-//        Platform.runLater(() -> {
-//            base_square.getChildren().add(tt);
-//        });
         addText("You " + s);
         Thread.sleep(10000);
     }
@@ -256,7 +186,6 @@ public class Client implements Initializable {
         Platform.runLater(() -> {
             base_square.getChildren().add(circle);
         });
-//        base_square.getChildren().add(circle);
         circle.setCenterX(i * BOUND + BOUND / 2.0 + OFFSET);
         circle.setCenterY(j * BOUND + BOUND / 2.0 + OFFSET);
         circle.setRadius(BOUND / 2.0 - OFFSET / 2.0);
@@ -272,8 +201,6 @@ public class Client implements Initializable {
             base_square.getChildren().add(line_a);
             base_square.getChildren().add(line_b);
         });
-//        base_square.getChildren().add(line_a);
-//        base_square.getChildren().add(line_b);
         line_a.setStartX(i * BOUND + OFFSET * 1.5);
         line_a.setStartY(j * BOUND + OFFSET * 1.5);
         line_a.setEndX((i + 1) * BOUND + OFFSET * 0.5);
@@ -288,18 +215,6 @@ public class Client implements Initializable {
         flag[i][j] = true;
     }
 }
-
-//@AllArgsConstructor
-//class RefreshPageCommand {
-//
-//    private Client clt;
-//
-//    public void execute(String[] args) {
-//        int x = Integer.parseInt(args[0]);
-//        int y = Integer.parseInt(args[1]);
-//        clt.refreshBoard(x, y, Connect.CTURN, Connect.enable);
-//    }
-//}
 
 class Connect implements Runnable {
     private Client clt;
@@ -317,26 +232,9 @@ class Connect implements Runnable {
 
     public void terminate() throws IOException, InterruptedException {
         this.terminate = true;
-//        din.close();
-//        sc.close();
         System.out.println("Server terminate");
         clt.shutDown();
-//        throw new IOException();
     }
-
-//    public boolean verify(String usr, String pwd) {
-//        pout.println(usr +" " + pwd);
-//        pout.flush();
-//        while (sc.hasNext()) {
-//            String s = sc.nextLine();
-//            String[] ss = s.split(" ");
-//            if (ss[0].equals("SUCCESS"))
-//                return true;
-//            else
-//                return false;
-//        }
-//        return true;
-//    }
 
     @Override
     public void run() {
@@ -352,10 +250,6 @@ class Connect implements Runnable {
             dout = new DataOutputStream(s.getOutputStream());
             sc = new Scanner(din);
             pout = new PrintWriter(dout);
-//            while (!clt.READY) {
-//                clt.showLogin();
-////                Thread.sleep(1000);
-//            }
             while (true) {
                 while (!sc.hasNext()) {
                     if (terminate) {
@@ -379,10 +273,11 @@ class Connect implements Runnable {
                     String str2 = sc.next();
                     String id = sc.next();
                     clt.addText2("Player No. " + id);
-                    if (str2.equals("FIRST"))
+                    if (str2.equals("FIRST")) {
                         CTURN = true;
-                    else
+                    } else {
                         CTURN = false;
+                    }
                     break;
                 }
             }
@@ -396,11 +291,7 @@ class Connect implements Runnable {
                     enable = true;
                     clt.addText("Your turn");
                     System.out.println("ENABLE");
-
-//                    while (enable) {
-//                        Thread.onSpinWait();
-//                    }
-                } else if (op.equals("WIN")){
+                } else if (op.equals("WIN")) {
                     System.out.println("win");
                     clt.drawResult("win");
                     enable = false;
@@ -426,9 +317,6 @@ class Connect implements Runnable {
                     String[] pos = op.split(",");
                     int x = Integer.parseInt(pos[0]);
                     int y = Integer.parseInt(pos[1]);
-//                    Platform.runLater(() -> {
-//                        clt.refreshBoard(x, y, !CTURN, enable);
-//                    });
                     clt.refreshBoard(x, y, !CTURN, true);
                 }
                 op = sc.next();
@@ -443,12 +331,11 @@ class Connect implements Runnable {
                 System.out.println("Server missing!");
                 clt.down();
             }
-//            e.printStackTrace();
         }
     }
 }
 
-class ConnectCheck implements Runnable{
+class ConnectCheck implements Runnable {
     private Socket s;
     public Connect c;
 
@@ -463,10 +350,7 @@ class ConnectCheck implements Runnable{
             try {
                 Thread.sleep(100);
                 s.sendUrgentData(0xFF);
-//                System.out.println("Test server");
             } catch (Exception e) {
-//                System.out.println("Server closed");
-//                c.terminate = true;
                 try {
                     c.terminate();
                     c.sc.close();
